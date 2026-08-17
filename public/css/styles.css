@@ -338,3 +338,10 @@ nav a.active {
   left: 12px;
   top: 12px;
 }
+/*/* Anti-spam : champ piège invisible pour les bots (honeypot) */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}

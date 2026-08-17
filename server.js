@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const nodemailer = require('nodemailer');
+const ratelimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -16,7 +17,13 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-app.post("/api/contact", async (req, res) => {
+const contactlimiter = ratelimit({
+  windowMs: 15*60*1000,
+  max: 5,
+  message: { ok: false, error: "Trop de message envoyés, réessaie plus tard." }
+});
+
+app.post("/api/contact", contactlimiter, async (req, res) => {
   const { nom, email, message } = req.body;
 
   if (!nom || !email || !message) {

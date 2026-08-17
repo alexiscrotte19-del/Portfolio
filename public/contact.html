@@ -31,11 +31,16 @@
     </header>
 
         <main id="main-content">
-
+        <!-- Section de contact avec formulaire et liens -->
         <section id="contact">
             <h1>Contact</h1>
-
+            <!-- Champ de hameçonnage pour prévenir les spams -->
             <form id="contactForm">
+                <div class ="honeypot">
+                    <label for="site_web">Site web (laisser vide)</label>
+                    <input type="text" id="site_web" name="site_web" tabindex="-1" autocomplete="off">
+                </div>
+                
                 <div>
                     <label for="nom">Nom</label>
                     <input type="text" id="nom" name="nom" required>
