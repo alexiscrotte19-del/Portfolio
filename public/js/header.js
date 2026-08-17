@@ -8,7 +8,7 @@ class SiteHeader extends HTMLElement {
       <header>
         <a href="index.html">Alexis Crotte</a>
         <nav>
-          <button id="themeToggle" type="button" aria-label="Changer de thème">🌓</button>
+          
           <ul>
             <li><a href="experience.html" class="${currentPath === 'experience.html' ? 'active' : ''}">Expérience</a></li>
             <li><a href="competences.html" class="${currentPath === 'competences.html' ? 'active' : ''}">Compétences</a></li>
@@ -16,6 +16,7 @@ class SiteHeader extends HTMLElement {
             <li><a href="formation.html" class="${currentPath === 'formation.html' ? 'active' : ''}">Formation</a></li>
             <li><a href="actualites.html" class="${currentPath === 'actualites.html' ? 'active' : ''}">Actualitéss</a></li>
             <li><a href="contact.html" class="${currentPath === 'contact.html' ? 'active' : ''}">Contact</a></li>
+            <button id="themeToggle" type="button" aria-label="Changer de thème">🌓</button>
           </ul>
         </nav>
       </header>
