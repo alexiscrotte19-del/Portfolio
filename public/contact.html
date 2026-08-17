@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <meta name="description" content="Contactez Alexis Crotte — formulaire de contact, LinkedIn et e-mail.">
+
+    <meta property="og:title" content="Contact — Alexis Crotte">
+    <meta property="og:description" content="Contactez Alexis Crotte — formulaire de contact, LinkedIn et e-mail.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://portfolio-c8nr.onrender.com/contact.html">
     <title>Contact — Alexis Crotte</title>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Aller au contenu</a>
     <header>
          <a href="index.html">Alexis Crotte</a>
         <nav>
@@ -16,12 +25,13 @@
                 <li><a href="projets.html">Projets</a></li>
                 <li><a href="formation.html">Formation</a></li>
                 <li><a href="actualites.html">Actualités</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
             </ul>
         </nav>
     </header>
 
-        <main>
+        <main id="main-content">
+
         <section id="contact">
             <h1>Contact</h1>
 
@@ -42,7 +52,7 @@
                 </div>
 
                 <button type="submit">Envoyer le message</button>
-                <p id="formStatus"></p>
+                <p id="formStatus" role="status" aria-live="polite"></p>
             </form>
 
             <a href="index.html" id="backHome">← Retour à l'accueil</a>
