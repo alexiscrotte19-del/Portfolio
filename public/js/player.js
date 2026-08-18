@@ -1,4 +1,3 @@
-
 class MusicPlayer extends HTMLElement {
   async connectedCallback() {
     this.tracks = [
@@ -39,8 +38,10 @@ class MusicPlayer extends HTMLElement {
           display: block;
           width: 100%;
           max-width: 480px;
-          margin: 0 auto;
+          margin: 0 auto 48px auto; /* Ajout d'un espace de respiration de 48px en bas du composant */
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+          position: relative;
+          z-index: 1;
         }
 
         .mp-card {
@@ -52,7 +53,8 @@ class MusicPlayer extends HTMLElement {
           border: 1px solid rgba(255, 255, 255, 0.08);
           border-radius: 20px;
           padding: 24px;
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+          margin-bottom: 48px; /* Espace de sécurité en bas de la carte */
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1); /* Ombre ajustée pour ne pas baver */
           box-sizing: border-box;
           overflow: hidden;
         }
@@ -75,30 +77,30 @@ class MusicPlayer extends HTMLElement {
           z-index: 1;
         }
 
-       .mp__toast {
-        position: absolute;
-        top: 15px; /* Ajusté pour positionner le toast à l'intérieur de la carte */
-        left: 50%;
-        transform: translateX(-50%);
-        background: rgba(30, 30, 40, 0.95);
-        color: #60a5fa;
-        border: 1px solid rgba(96, 165, 250, 0.3);
-        padding: 6px 18px;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        opacity: 0;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        white-space: nowrap;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-        z-index: 10;
-      }
+        .mp__toast {
+          position: absolute;
+          top: 15px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: rgba(30, 30, 40, 0.95);
+          color: #60a5fa;
+          border: 1px solid rgba(96, 165, 250, 0.3);
+          padding: 6px 18px;
+          border-radius: 30px;
+          font-size: 0.8rem;
+          font-weight: 600;
+          opacity: 0;
+          pointer-events: none;
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          white-space: nowrap;
+          box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+          z-index: 10;
+        }
 
-      .mp__toast.show {
-        opacity: 1;
-        transform: translateX(-50%) translateY(12px); /* Légère translation vers le bas à l'apparition */
-      }
+        .mp__toast.show {
+          opacity: 1;
+          transform: translateX(-50%) translateY(12px);
+        }
 
         /* En-tête */
         .mp__header {
@@ -258,7 +260,6 @@ class MusicPlayer extends HTMLElement {
           font-size: 0.75rem;
           color: #64748b;
           font-weight: 600;
-          font-mono: true;
           min-width: 32px;
         }
 
