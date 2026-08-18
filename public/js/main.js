@@ -37,23 +37,27 @@ if (form) {
 }
 
 // logique pour le bouton de changement de thème
-const themeToggle = document.getElementById("themeToggle");
-const savedTheme = localStorage.getItem("theme");
+// (délégation d'événements : fonctionne même si #themeToggle est injecté
+// après coup par le composant <site-header>, quel que soit l'ordre de chargement)
 
-if (savedTheme === "dark") {
-  document.documentElement.setAttribute("data-theme", "dark");
-  themeToggle.textContent = "☀️";
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const themeToggle = document.getElementById("themeToggle");
+  if (themeToggle) {
+    themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
 }
 
-themeToggle.addEventListener("click", () => {
-  const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-  if (isDark) {
-    document.documentElement.setAttribute("data-theme", "light");
-    localStorage.setItem("theme", "light");
-    themeToggle.textContent = "🌙";
-  } else {
-    document.documentElement.setAttribute("data-theme", "dark");
-    localStorage.setItem("theme", "dark");
-    themeToggle.textContent = "☀️";
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "dark") {
+  applyTheme("dark");
+}
+
+document.addEventListener("click", (event) => {
+  if (event.target && event.target.id === "themeToggle") {
+    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+    const nextTheme = isDark ? "light" : "dark";
+    applyTheme(nextTheme);
+    localStorage.setItem("theme", nextTheme);
   }
 });

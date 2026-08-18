@@ -36,7 +36,7 @@ header {
   justify-content: space-between;
   gap: 16px;
   padding: 18px 32px;
-  border-bottom: 1px solid #e4e0d6;
+  border-bottom: 1px solid #f6f4ef;
 }
 
 header a {
@@ -354,10 +354,20 @@ nav a.active {
 /* mode sombre */
 [data-theme="dark"] {
   --paper: #1a1a1d;
-  --ink: #f0eee6;
+  --ink: #f6f4ef;
   --blue: #5b9bd5;
   --pink: #f088ac;
   --yellow: #f5cc4d;
   --surface: #242427;
   --border-soft: #3a3a3d;
+}
+
+#themeToggle {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
 }
