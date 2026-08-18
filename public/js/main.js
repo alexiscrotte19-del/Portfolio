@@ -2,6 +2,26 @@ const form = document.getElementById("contactForm");
 const status = document.getElementById("formStatus");
 
 if (form) {
+  // Gestion de la sélection des badges d'objet
+  const tagButtons = form.querySelectorAll(".tag-btn");
+  const selectedInput = document.getElementById("selectedSubject");
+
+  tagButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault(); // Empêche la soumission du formulaire au clic sur un badge
+
+      // Active le bouton cliqué et désactive les autres
+      tagButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      // Met à jour la valeur du champ caché si présent
+      if (selectedInput) {
+        selectedInput.value = btn.dataset.value;
+      }
+    });
+  });
+
+  // Gestion de la soumission du formulaire
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     console.log("Formulaire soumis !");
@@ -9,6 +29,7 @@ if (form) {
     status.textContent = "Envoi en cours...";
 
     const payload = {
+      sujet: selectedInput ? selectedInput.value : "Non précisé",
       nom: form.nom.value.trim(),
       email: form.email.value.trim(),
       message: form.message.value.trim(),
@@ -26,6 +47,15 @@ if (form) {
       if (response.ok && data.ok) {
         status.textContent = "Message envoyé, merci !";
         form.reset();
+
+        // Réinitialise la sélection sur le premier badge par défaut
+        if (tagButtons.length > 0) {
+          tagButtons.forEach((b) => b.classList.remove("active"));
+          tagButtons[0].classList.add("active");
+          if (selectedInput) {
+            selectedInput.value = tagButtons[0].dataset.value;
+          }
+        }
       } else {
         status.textContent = data.error || "Une erreur est survenue, réessaie.";
       }
@@ -36,10 +66,7 @@ if (form) {
   });
 }
 
-// logique pour le bouton de changement de thème
-// (délégation d'événements : fonctionne même si #themeToggle est injecté
-// après coup par le composant <site-header>, quel que soit l'ordre de chargement)
-
+// Logique pour le bouton de changement de thème
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   const themeToggle = document.getElementById("themeToggle");
@@ -60,4 +87,26 @@ document.addEventListener("click", (event) => {
     applyTheme(nextTheme);
     localStorage.setItem("theme", nextTheme);
   }
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const tagButtons = document.querySelectorAll(".tag-btn");
+  const selectedInput = document.getElementById("selectedSubject");
+
+  tagButtons.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      e.stopPropagation(); // Empêche d'autres écouteurs de bloquer le clic
+
+      // Retire la classe 'active' de tous les boutons
+      tagButtons.forEach((b) => b.classList.remove("active"));
+
+      // Ajoute la classe 'active' au bouton cliqué
+      btn.classList.add("active");
+
+      // Met à jour la valeur envoyée dans le formulaire
+      if (selectedInput) {
+        selectedInput.value = btn.getAttribute("data-value");
+      }
+    });
+  });
 });

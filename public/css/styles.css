@@ -374,3 +374,40 @@ nav a.active {
   padding: 4px;
 }
 
+/* Container des boutons d'objet */
+.subject-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+/* Style de chaque badge */
+.tag-btn {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  padding: 10px 20px;
+  border-radius: 999px; /* Forme de pilule très arrondie */
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+/* Effet survol */
+.tag-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
+/* État actif (bouton sélectionné) */
+.tag-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
