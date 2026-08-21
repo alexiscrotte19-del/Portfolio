@@ -1,17 +1,37 @@
+/* ==========================================================================
+   1. VARIABLES GLOBALES (Thème clair par défaut)
+   ========================================================================== */
 :root {
-  --paper: #f6f4ef;
-  --ink: #17171a;
-  --blue: #2c6fb0;
-  --pink: #e64c82;
-  --yellow: #f3b815;
-    --surface: #fdfcfa;
-  --border-soft: #e4e0d6;
+  /* Palette de couleurs de base */
+  --paper: #f6f4ef;       /* Couleur de fond principale (effet papier) */
+  --ink: #17171a;         /* Couleur du texte et des bordures fortes (encre) */
+  --blue: #2c6fb0;        /* Couleur d'accentuation bleue */
+  --pink: #e64c82;        /* Couleur d'accentuation rose */
+  --yellow: #f3b815;      /* Couleur d'accentuation jaune */
+  --surface: #fdfcfa;     /* Couleur des cartes et zones surélevées */
+  --border-soft: #e4e0d6; /* Couleur des bordures légères */
 
-  --font-body: "Arial", sans-serif;
-  --font-display: "Arial Black", sans-serif;
+  /* Typographies du site */
+  --font-body: "Arial", sans-serif;       /* Police pour le texte général */
+  --font-display: "Arial Black", sans-serif; /* Police pour les titres en gras */
 }
 
+/* Thème sombre (activé dynamiquement via l'attribut data-theme="dark") */
+[data-theme="dark"] {
+  --paper: #1a1a1d;       /* Fond sombre */
+  --ink: #f6f4ef;         /* Texte et bordures clairs */
+  --blue: #5b9bd5;
+  --pink: #f088ac;
+  --yellow: #f5cc4d;
+  --surface: #242427;     /* Fond des cartes plus sombre */
+  --border-soft: #3a3a3d;
+}
+
+/* ==========================================================================
+   2. RÉINITIALISATION ET STYLES DE BASE
+   ========================================================================== */
 * {
+  /* Inclut les bordures et rembourrages dans la taille totale des éléments */
   box-sizing: border-box;
 }
 
@@ -20,7 +40,8 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-body);
-  line-height: 1.5;
+  line-height: 1.5; /* Hauteur de ligne pour une bonne lisibilité */
+  /* Transition douce lors du changement de thème (clair/sombre) */
   transition: background 0.2s ease, color 0.2s ease;
 }
 
@@ -29,43 +50,94 @@ section {
   padding-right: 32px;
 }
 
+/* Lien d'accessibilité pour les lecteurs d'écran (masqué par défaut) */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 20px;
+  z-index: 100;
+}
 
+/* Apparaît en haut à gauche dès qu'il reçoit le focus au clavier */
+.skip-link:focus {
+  left: 12px;
+  top: 12px;
+}
+
+/* Titres globaux de section avec barre verticale à gauche */
+.section-title,
+section h1,
+section h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3rem); /* Taille réactive adaptative */
+  text-transform: uppercase;
+  margin: 0 0 32px;
+  border-left: 8px solid var(--ink);   /* Barre verticale */
+  padding-left: 16px;
+}
+
+/* ==========================================================================
+   3. EN-TÊTE ET NAVIGATION (Header & Nav)
+   ========================================================================== */
 header {
- display: flex;
+  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Espace le logo/nom du menu de navigation */
   gap: 16px;
   padding: 18px 32px;
   border-bottom: 1px solid #f6f4ef;
 }
 
 header a {
-   text-decoration: none;
+  text-decoration: none;
   color: var(--ink);
   font-family: var(--font-display);
-
 }
 
 nav ul {
-    display: flex;
+  display: flex;
   gap: 20px;
-  list-style: none;
+  list-style: none; /* Supprime les puces HTML */
   margin: 0;
   padding: 0;
 }
 
 nav a {
-text-decoration: none;
+  text-decoration: none;
   color: var(--ink);
   opacity: 0.75;
 }
 
 nav a:hover {
-  opacity: 1;
+  opacity: 1; /* S'assombrit légèrement au survol */
 }
 
+/* Style spécifique pour le lien de la page courante */
+nav a.active {
+  opacity: 1;
+  font-weight: bold;
+  border-bottom: 2px solid var(--ink);
+}
+
+/* Bouton bascule de thème (clair/sombre) */
+#themeToggle {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 4px;
+}
+
+/* ==========================================================================
+   4. SECTION HERO (Présentation principale)
+   ========================================================================== */
 .hero {
-min-height: 70vh;
+  min-height: 70vh; /* Occupe au moins 70% de la hauteur de l'écran */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -74,19 +146,21 @@ min-height: 70vh;
 
 .hero h1 {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8vw, 6rem);
+  font-size: clamp(2.5rem, 8vw, 6rem); /* S'adapte de manière fluide à l'écran */
   line-height: 0.95;
   margin: 0 0 24px;
   text-transform: uppercase;
 }
 
 .hero p {
-  max-width: 46ch;
+  max-width: 46ch; /* Limite la largeur à 46 caractères environ */
   font-size: 1.1rem;
   margin: 0 0 8px;
 }
 
-/* Contact Stamps */
+/* ==========================================================================
+   5. TAMPONS DE CONTACT (Badges sous la présentation)
+   ========================================================================== */
 .contact-stamps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -107,6 +181,7 @@ min-height: 70vh;
   transition: transform 0.15s ease;
 }
 
+/* Effet d'inclinaison amusant au survol */
 .contact-stamps a:hover {
   transform: rotate(-1.5deg);
 }
@@ -123,18 +198,9 @@ min-height: 70vh;
   font-size: 1.1rem;
 }
 
-/* Section Titles */
-.section-title,
-section h1,
-section h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  text-transform: uppercase;
-  margin: 0 0 32px;
-  border-left: 8px solid var(--ink);
-  padding-left: 16px;
-}
-
+/* ==========================================================================
+   6. PARCOURS (Timeline)
+   ========================================================================== */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -158,7 +224,42 @@ section h2 {
   max-width: 60ch;
 }
 
-/*comptences*/
+/* ==========================================================================
+   7. TABLEAU DE COMPÉTENCES (Nouveau composant)
+   ========================================================================== */
+table {
+  width: 100%;
+  border-collapse: separate; /* Nécessaire pour conserver le border-radius */
+  border-spacing: 0;
+  border-radius: 8px;        /* Coins arrondis du tableau */
+  overflow: hidden;          /* Empêche les éléments internes de dépasser des coins */
+  border: 1px solid #ddd;
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style de l'en-tête du tableau */
+th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+/* Supprime la bordure sous la dernière ligne pour un rendu propre */
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Effet de survol sur les lignes */
+tr:hover {
+  background-color: #f5f5f5;
+}
+
+/* Anciennes puces de compétences (conservées au cas où) */
 #competences ul {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -177,7 +278,9 @@ section h2 {
   text-align: center;
 }
 
-/* card styles */
+/* ==========================================================================
+   8. GRILLE DE PROJETS ET D'ACTUALITÉS (Cartes)
+   ========================================================================== */
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -191,10 +294,11 @@ section h2 {
   border: 1.5px solid var(--ink);
   text-decoration: none;
   color: var(--ink);
-    background: var(--surface); 
+  background: var(--surface); 
   transition: transform 0.15s ease;
 }
 
+/* Légère élévation de la carte au survol */
 .project-card:hover {
   transform: translateY(-4px);
 }
@@ -210,7 +314,39 @@ section h2 {
   font-size: 0.9rem;
 }
 
-/*formulaire de contact*/
+/* Cartes d'actualité */
+.actualite-item {
+  padding: 20px;
+  margin: 0 32px 24px;
+  border: 1.5px solid var(--ink);
+  background: var(--surface);
+}
+
+.actualite-item h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.actualite-item p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+}
+
+.actualite-item ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+
+.actualite-item a {
+  color: var(--blue);
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   9. FORMULAIRE DE CONTACT
+   ========================================================================== */
 form {
   display: flex;
   flex-direction: column;
@@ -241,12 +377,49 @@ form textarea {
   color: var(--ink);
 }
 
+/* Contour jaune vif lors de la saisie */
 form input:focus,
 form textarea:focus {
   outline: 3px solid var(--yellow);
   outline-offset: 2px;
 }
 
+/* Boutons de sélection rapide d'objet */
+.subject-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.tag-btn {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  padding: 10px 20px;
+  border-radius: 999px; /* Forme de pilule très arrondie */
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.tag-btn:hover {
+  background: var(--ink);
+  color: var(--paper);
+  transform: translateY(-2px);
+}
+
+.tag-btn.active {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Bouton d'envoi principal */
 button[type="submit"] {
   align-self: flex-start;
   font-family: var(--font-body);
@@ -265,6 +438,15 @@ button[type="submit"]:hover {
   background: var(--pink);
 }
 
+/* Anti-spam : Champ piège invisible pour les robots */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Bouton de retour à l'accueil */
 #backHome {
   display: inline-block;
   margin: 0 32px 48px;
@@ -279,135 +461,20 @@ button[type="submit"]:hover {
   background: var(--ink);
   color: var(--paper);
 }
-/*card actualités*/
-.actualite-item {
-  padding: 20px;
-  margin: 0 32px 24px;
-  border: 1.5px solid var(--ink);
-  background: #fdfcfa;
-  background: var(--surface);
-}
 
-.actualite-item h3 {
-  margin: 0 0 8px;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-}
-
-.actualite-item p {
-  margin: 0 0 10px;
-  font-size: 0.9rem;
-}
-
-.actualite-item ul {
-  margin: 0 0 10px;
-  padding-left: 20px;
-}
-
-.actualite-item a {
-  color: var(--blue);
-  font-size: 0.85rem;
-  text-decoration: underline;
-}
-
-/* Responsive Design */
+/* ==========================================================================
+   10. MEDIA QUERIES (Adaptation mobile)
+   ========================================================================== */
 @media (max-width: 700px) {
   header {
-    flex-direction: column;
+    flex-direction: column;     /* Aligne le logo et le menu verticalement */
     align-items: flex-start;
     gap: 12px;
     background: var(--surface);
   }
 
   nav ul {
-    flex-wrap: wrap;
+    flex-wrap: wrap;             /* Permet aux liens de passer à la ligne sur mobile */
     gap: 12px 16px;
   }
-}
-/*page active*/
-nav a.active {
-  opacity: 1;
-  font-weight: bold;
-  border-bottom: 2px solid var(--ink);
-}
-
-/* Lien d'accessibilité (aller au contenu) */
-.skip-link {
-  position: absolute;
-  left: -9999px;
-  top: 0;
-  background: var(--ink);
-  color: var(--paper);
-  padding: 12px 20px;
-  z-index: 100;
-}
-
-.skip-link:focus {
-  left: 12px;
-  top: 12px;
-}
-/*/* Anti-spam : champ piège invisible pour les bots (honeypot) */
-.honeypot {
-  position: absolute;
-  left: -9999px;
-  opacity: 0;
-  pointer-events: none;
-}
-/* mode sombre */
-[data-theme="dark"] {
-  --paper: #1a1a1d;
-  --ink: #f6f4ef;
-  --blue: #5b9bd5;
-  --pink: #f088ac;
-  --yellow: #f5cc4d;
-  --surface: #242427;
-  --border-soft: #3a3a3d;
-}
-
-#themeToggle {
-  background: none;
-  border: none;
-  outline: none;
-  box-shadow: none;
-  cursor: pointer;
-  font-size: 1.2rem;
-  padding: 4px;
-}
-
-/* Container des boutons d'objet */
-.subject-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 8px;
-}
-
-/* Style de chaque badge */
-.tag-btn {
-  background: var(--paper);
-  border: 1.5px solid var(--ink);
-  color: var(--ink);
-  padding: 10px 20px;
-  border-radius: 999px; /* Forme de pilule très arrondie */
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  outline: none;
-  transition: all 0.2s ease;
-}
-
-/* Effet survol */
-.tag-btn:hover {
-  background: var(--ink);
-  color: var(--paper);
-  transform: translateY(-2px);
-}
-
-/* État actif (bouton sélectionné) */
-.tag-btn.active {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
