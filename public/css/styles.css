@@ -10,6 +10,7 @@
   --yellow: #f3b815;      /* Couleur d'accentuation jaune */
   --surface: #fdfcfa;     /* Couleur des cartes et zones surélevées */
   --border-soft: #e4e0d6; /* Couleur des bordures légères */
+  --text-muted: #666666;  /* Couleur pour le texte secondaire */
 
   /* Typographies du site */
   --font-body: "Arial", sans-serif;       /* Police pour le texte général */
@@ -25,6 +26,7 @@
   --yellow: #f5cc4d;
   --surface: #242427;     /* Fond des cartes plus sombre */
   --border-soft: #3a3a3d;
+  --text-muted: #a0a0a5;
 }
 
 /* ==========================================================================
@@ -88,7 +90,7 @@ header {
   justify-content: space-between; /* Espace le logo/nom du menu de navigation */
   gap: 16px;
   padding: 18px 32px;
-  border-bottom: 1px solid #f6f4ef;
+  border-bottom: 1px solid var(--border-soft);
 }
 
 header a {
@@ -199,7 +201,7 @@ nav a.active {
 }
 
 /* ==========================================================================
-   6. PARCOURS (Timeline)
+   6. PARCOURS & EXPÉRIENCES PROFESSIONNELLES
    ========================================================================== */
 .timeline {
   display: flex;
@@ -208,24 +210,70 @@ nav a.active {
   padding: 0 32px 48px;
 }
 
+/* Carte d'expérience dynamique */
+.experience-card,
 .timeline-item {
-  padding-bottom: 24px;
-  border-bottom: 1px dashed #e4e0d6;
-  background: var(--surface);
+  background-color: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-left: 4px solid var(--ink); /* Barre d'accentuation sur le côté */
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
+/* Effet de survol : la carte remonte et s'accentue en rose */
+.experience-card:hover,
+.timeline-item:hover {
+  transform: translateY(-3px);
+  border-left-color: var(--pink);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.experience-card h3,
 .timeline-item h3 {
-  margin: 0 0 6px;
+  margin: 0 0 0.3rem 0;
   font-size: 1.15rem;
+  color: var(--ink);
+  font-family: var(--font-display);
 }
 
+.experience-card .date,
+.timeline-item .date {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.experience-card p,
 .timeline-item p {
-  margin: 0 0 4px;
+  margin: 0;
+  line-height: 1.5;
+  color: var(--ink);
   max-width: 60ch;
 }
 
+/* Badges pour les technologies (C#, Raspberry Pi, etc.) */
+.experience-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--border-soft);
+  color: var(--ink);
+  border-radius: 4px;
+  font-weight: bold;
+}
+
 /* ==========================================================================
-   7. TABLEAU DE COMPÉTENCES
+   7. TABLEAU DE COMPÉTENCES DYNAMIQUE
    ========================================================================== */
 table {
   width: 100%;
@@ -236,13 +284,19 @@ table {
   border: 1.5px solid var(--ink);
   margin-top: 1rem;
   background-color: var(--surface);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+table:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 th, td {
-  padding: 12px;
+  padding: 14px 18px;
   text-align: left;
   border-bottom: 1px solid var(--border-soft);
   color: var(--ink);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 /* En-tête adapté au thème */
@@ -250,16 +304,40 @@ th {
   background-color: var(--ink);
   color: var(--paper);
   font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+/* Animation au survol de la ligne */
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: var(--border-soft);
+}
+
+/* Effet interactif au survol d'une cellule spécifique */
+tbody td:hover {
+  background-color: var(--pink);
+  color: #ffffff;
+  font-weight: bold;
+  cursor: default;
+}
+
+/* Style zébré automatique */
+tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
 }
 
 /* Suppression de la bordure sur la dernière ligne */
 tr:last-child td {
   border-bottom: none;
-}
-
-/* Effet de survol lisible en clair comme en sombre */
-tr:hover {
-  background-color: var(--border-soft);
 }
 
 /* ==========================================================================
