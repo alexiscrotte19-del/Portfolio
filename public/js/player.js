@@ -494,6 +494,7 @@ class MusicPlayer extends HTMLElement {
             <input type="text" class="mp__input" data-el="inputTitle" placeholder="Titre du morceau (optionnel)">
             <input type="text" class="mp__input" data-el="inputArtist" placeholder="Artiste (optionnel)">
             <input type="file" class="mp__input-file" data-el="inputFile" accept="audio/*">
+          
             <button type="submit" class="mp__submit-btn">
               <span>➕</span> AJOUTER LE MORCEAU
             </button>

@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-  const fs = require('fs');
+const fs = require('fs');
 const nodemailer = require('nodemailer');
 const ratelimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -10,24 +10,29 @@ const helmet = require('helmet');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(helmet());
+// Configuration Helmet assouplie
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
+
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // ----------------------------------------------------
-// Configuration du stockage avec Multer
+// Configuration du stockage avec Multer (Fichiers Audio)
 // ----------------------------------------------------
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     const uploadDir = path.join(__dirname, 'public/audio');
-    // Crée le dossier s'il n'existe pas encore
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     cb(null, uploadDir);
   },
   filename: (req, file, cb) => {
-    // Conserve un horodatage pour éviter les doublons de nom
     cb(null, Date.now() + '-' + file.originalname);
   }
 });
@@ -35,7 +40,6 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    // Accepte uniquement les fichiers audio
     if (file.mimetype.startsWith('audio/')) {
       cb(null, true);
     } else {
@@ -45,16 +49,14 @@ const upload = multer({
 });
 
 // ----------------------------------------------------
-// Routes API (Upload, Tracks, Contact)
+// Routes API (Upload & Tracks)
 // ----------------------------------------------------
 
-// Route d'upload
 app.post('/api/upload', upload.single('audioTrack'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: 'Aucun fichier reçu.' });
   }
 
-  // Renvoie le chemin relatif pour le player JS
   const trackPath = `audio/${req.file.filename}`;
   res.json({
     message: 'Fichier ajouté avec succès !',
@@ -64,11 +66,9 @@ app.post('/api/upload', upload.single('audioTrack'), (req, res) => {
   });
 });
 
-// Route pour récupérer automatiquement tous les morceaux du serveur
 app.get('/api/tracks', (req, res) => {
   const audioDir = path.join(__dirname, 'public/audio');
 
-  // Vérifie si le dossier existe
   if (!fs.existsSync(audioDir)) {
     return res.json([]);
   }
@@ -78,12 +78,9 @@ app.get('/api/tracks', (req, res) => {
       return res.status(500).json({ error: 'Erreur lors de la lecture des fichiers audio.' });
     }
 
-    // Filtre uniquement les fichiers audio (.mp3, .wav, .ogg)
     const audioFiles = files.filter(file => /\.(mp3|wav|ogg)$/i.test(file));
 
-    // Formate la liste pour le lecteur JS
     const tracks = audioFiles.map(file => ({
-      // Retire l'horodatage initial (s'il existe) et l'extension pour le titre
       title: file.replace(/^\d+-/, '').replace(/\.[^/.]+$/, ""),
       artist: 'Musique du serveur',
       src: `audio/${file}`
@@ -93,7 +90,10 @@ app.get('/api/tracks', (req, res) => {
   });
 });
 
-// Configuration Nodemailer et Rate Limiter pour la page de contact
+// ----------------------------------------------------
+// Configuration Nodemailer & Route Contact
+// ----------------------------------------------------
+// Transporter optimisé pour Gmail
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -102,34 +102,35 @@ const transporter = nodemailer.createTransport({
   }
 });
 
+// Limiteur de requêtes (désactivé ou augmenté pendant tes tests)
 const contactlimiter = ratelimit({
   windowMs: 15 * 60 * 1000,
-  max: 5,
+  max: 20, // Augmenté à 20 pour éviter de te bloquer durant les tests
   message: { ok: false, error: "Trop de messages envoyés, réessaie plus tard." }
 });
 
 app.post("/api/contact", contactlimiter, async (req, res) => {
-  const { nom, email, message } = req.body;
+  const { nom, email, message, sujet } = req.body;
 
   if (!nom || !email || !message) {
-    return res.status(400).json({ ok: false, error: "Champs manquants." });
+    return res.status(400).json({ ok: false, error: "Tous les champs obligatoires doivent être remplis." });
   }
 
   const mailOptions = {
     from: `"${nom}" <${process.env.EMAIL_USER}>`,
     to: process.env.RECEIVER_EMAIL || process.env.EMAIL_USER,
-    subject: `[Portfolio] Nouveau message de ${nom}`,
-    text: `Nom: ${nom}\nEmail: ${email}\n\nMessage:\n${message}`,
+    subject: `[Portfolio] ${sujet || 'Nouveau message'} de ${nom}`,
+    text: `Sujet: ${sujet || 'Non précisé'}\nNom: ${nom}\nEmail: ${email}\n\nMessage:\n${message}`,
     replyTo: email
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    console.log(`Email envoyé de la part de ${nom}`);
+    console.log(`✅ Email envoyé avec succès de la part de ${nom} (${email})`);
     res.json({ ok: true });
   } catch (error) {
-    console.error("Erreur lors de l'envoi du mail :", error);
-    res.status(500).json({ ok: false, error: "Impossible d'envoyer l'email." });
+    console.error("❌ Erreur serveur Nodemailer :", error);
+    res.status(500).json({ ok: false, error: "Erreur lors de l'envoi du mail." });
   }
 });
 
@@ -142,4 +143,4 @@ app.use((req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Serveur démarré sur http://localhost:${PORT}`);
-  });
+});
