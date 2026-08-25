@@ -1,4 +1,29 @@
 (() => {
+  // clés accès Web3Form (fallback utilisé si le serveur Render est eteint ou en veille /injoinable)
+  // récupération d la clé gratuitementsur htpps://web3form.com/
+  const WEB3FORMS_ACCESS_KEY = "e9827acc-9b3f-48c2-a634-4fb692650179";
+
+  // envoie le message viaweb3form (solutioin de secours indépendant)
+  async function sendViaWeb3Forms(payload) {
+    const reponse = await fetch("https://api.web3forms.com/submit" , {
+      method:"POST",
+      headers:{"Content-type": "application/json"},
+      body:JSON.stringify({
+        access_key :WEB3FORMS_ACCESS_KEY,
+        subject: `Nouveau message via portfolio — ${payload.sujet}`,
+        name:payload.nom,
+        email: payload.email,
+        message:payload.message,
+      }),
+    });
+    const data =await reponse.json();
+    if (!reponse.ok || !data.success){
+      throw new Error(data.message||"Echec sz l'envoi via Web3Fomrs");
+      }
+    }
+
+
+
   document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("contactForm");
     const status = document.getElementById("formStatus");
@@ -50,33 +75,57 @@
         return;
       }
 
-      try {
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        });
-
-        const data = await response.json();
-
-        if (response.ok && data.ok) {
-          if (status) status.textContent = "Message envoyé, merci !";
-          form.reset();
-
-          if (tagButtons.length > 0) {
-            tagButtons.forEach((b) => b.classList.remove("active"));
-            tagButtons[0].classList.add("active");
-            if (selectedInput) {
-              selectedInput.value = tagButtons[0].dataset.value || tagButtons[0].textContent.trim();
-            }
-          }
-        } else {
-          if (status) status.textContent = data.error || "Une erreur est survenue lors de l'envoi.";
+    // Réinitialise le formulair après envoie  réussi (via la première méthode ou la deuxième)
+    const resetFormAfterSuccess = () => {
+      form.reset();
+      if (tagButtons.length> 0 ) {
+        tagButtons.forEach((b) => b.classList.remove("active"));
+        tagButtons[0].classList.add("active");
+        if (selectedInput) {
+          selectedInput.value = tagButtons[0].dataset.value || tagButtons[0].textContent.trim();
         }
-      } catch (err) {
-        console.error("Erreur réseau / serveur :", err);
-        if (status) status.textContent = "Impossible de contacter le serveur.";
       }
+    };
+
+    //1 tentative via le serveur principal avec un time out de 5s au cas ou il soit eteint ou en veille 
+    try{
+      const controller = new AbortController();
+      const timeoutId  = setTimeout(() => controller.abort() ,5000);
+
+      const reponse = await fetch ("/api/contact",{
+        method:"POST",
+        headers:{"Content-type":"application/json"},
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+    
+      const data = await reponse.json();
+
+      if (reponse .ok && data.ok){
+        if (status) status.textContent ="Message envoyé via le serveur ,merci !";
+      resetFormAfterSuccess();
+      return;
+    }
+
+    //le serveur à répondu mais à refuser la requête pas de fallback //
+
+    if (status) status.textContent = data.error || "une erreur est survenue lors de l'envoie";
+    return;
+    }catch (err){
+        console.warn ("Serveur principal injoignable, tentative via Web3Forms :", err);
+    }
+
+    // 2. Fallback : le serveur principal n'a pas répondu (éteint, en veille, timeout...)
+      try {
+        await sendViaWeb3Forms(payload);
+        if (status) status.textContent = "Message envoyé (via le formulaire de secours), merci !";
+        resetFormAfterSuccess();
+      } catch (err) {
+        console.error("Échec du fallback Web3Forms :", err);
+        if (status) status.textContent = "Impossible d'envoyer le message pour le moment. Contactez-moi directement par e-mail.";
+
+      } 
     });
   });
 
