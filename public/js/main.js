@@ -103,7 +103,7 @@
       const data = await reponse.json();
 
       if (reponse .ok && data.ok){
-        if (status) status.textContent ="Message envoyé via le serveur ,merci !";
+        if (status) status.textContent ="Message envoyé, merci !";
       resetFormAfterSuccess();
       return;
     }
@@ -119,7 +119,7 @@
     // 2. Fallback : le serveur principal n'a pas répondu (éteint, en veille, timeout...)
       try {
         await sendViaWeb3Forms(payload);
-        if (status) status.textContent = "Message envoyé (via le formulaire de secours), merci !";
+        if (status) status.textContent = "Message envoyé, merci !";
         resetFormAfterSuccess();
       } catch (err) {
         console.error("Échec du fallback Web3Forms :", err);
