@@ -6,15 +6,15 @@ class SiteHeader extends HTMLElement {
 
     this.innerHTML = `
       <header>
-        <a href="index.html">Alexis Crotte</a>
+        
         <nav>
           
           <ul>
+          
+           <li><a href="index.html" class="${currentPath === 'index.html' ? 'active' : ''}">Accueil</a></li>
             <li><a href="SIO.html" class="${currentPath === 'SIO.html' ? 'active' : ''}">BTS SIO</a></li>
             <li><a href="experience.html" class="${currentPath === 'experience.html' ? 'active' : ''}">Expérience</a></li>
-            <li><a href="competences.html" class="${currentPath === 'competences.html' ? 'active' : ''}">Compétences</a></li>
             <li><a href="projets.html" class="${currentPath === 'projets.html' ? 'active' : ''}">Projets</a></li>
-            <li><a href="formation.html" class="${currentPath === 'formation.html' ? 'active' : ''}">Formation</a></li>
             <li><a href="actualites.html" class="${currentPath === 'actualites.html' ? 'active' : ''}">Actualités</a></li>
             <li><a href="contact.html" class="${currentPath === 'contact.html' ? 'active' : ''}">Contact</a></li>
             
