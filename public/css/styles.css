@@ -359,7 +359,27 @@ tr:last-child td {
   background: var(--surface); 
   transition: transform 0.15s ease;
 }
+/*card image ajouter */
+.project-card img {
+ display: block;
+  max-height: 250px;
+  object-fit: contain;
+    left: 0;
+    right: 0;
+    transition: transform 0.2s ease;
+  cursor: zoom-in;
+}
+/* Légère élévation de la carte au survol */
+figure {
+  margin: 8px 0 0;
+}
 
+figcaption {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 6px;
+  font-style: italic;
+}
 /* Légère élévation de la carte au survol */
 .project-card:hover {
   transform: translateY(-4px);

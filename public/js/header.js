@@ -10,6 +10,7 @@ class SiteHeader extends HTMLElement {
         <nav>
           
           <ul>
+            <li><a href="SIO.html" class="${currentPath === 'SIO.html' ? 'active' : ''}">BTS SIO</a></li>
             <li><a href="experience.html" class="${currentPath === 'experience.html' ? 'active' : ''}">Expérience</a></li>
             <li><a href="competences.html" class="${currentPath === 'competences.html' ? 'active' : ''}">Compétences</a></li>
             <li><a href="projets.html" class="${currentPath === 'projets.html' ? 'active' : ''}">Projets</a></li>

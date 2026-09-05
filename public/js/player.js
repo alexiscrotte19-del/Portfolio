@@ -1,10 +1,11 @@
 class MusicPlayer extends HTMLElement {
   async connectedCallback() {
+    // Possibilité d'ajouter "cover" : image URL ou Emoji
     this.tracks = [
-      { title: "Battle Cry", artist: "Musique du serveur", src: "audio/morceau1.mp3" },
-      { title: "Superhero", artist: "Musique du serveur", src: "audio/morceau2.mp3" },
-      { title: "Azurin - Version Kelly Evenson", artist: "Musique du serveur", src: "audio/morceau3.mp3" },
-      { title: "Impossible", artist: "Musique du serveur", src: "audio/morceau4.mp3" }
+      { title: "Battle Cry", artist: "Musique du serveur", src: "audio/morceau1.mp3", cover: "🎵" },
+      { title: "Superhero", artist: "Musique du serveur", src: "audio/morceau2.mp3", cover: "⚡" },
+      { title: "Azurin - Version Kelly Evenson", artist: "Musique du serveur", src: "audio/morceau3.mp3", cover: "🌊" },
+      { title: "Impossible", artist: "Musique du serveur", src: "audio/morceau4.mp3", cover: "🔥" }
     ];
 
     this.currentIndex = 0;
@@ -35,85 +36,65 @@ class MusicPlayer extends HTMLElement {
     this.innerHTML = `
       <style>
         :host {
-          display: block;
-          width: 100%;
-          max-width: 480px;
-          margin: 0 auto 48px auto; /* Ajout d'un espace de respiration de 48px en bas du composant */
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-          position: relative;
-          z-index: 1;
+          display: flex !important;
+          justify-content: center !important;
+          width: 100% !important;
+          margin: 20px auto !important;
         }
 
         .mp-card {
           position: relative;
-          background: rgba(22, 22, 29, 0.75);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          width: 100% !important;
+          max-width: 320px !important;
+          background: rgba(22, 22, 29, 0.95);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
           color: #f4f4f5;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 20px;
-          padding: 24px;
-          margin-bottom: 48px; /* Espace de sécurité en bas de la carte */
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1); /* Ombre ajustée pour ne pas baver */
-          box-sizing: border-box;
-          overflow: hidden;
-        }
-
-        /* Halo néon d'ambiance */
-        .mp-card::before {
-          content: '';
-          position: absolute;
-          top: -100px;
-          right: -100px;
-          width: 250px;
-          height: 250px;
-          background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
-          pointer-events: none;
-          z-index: 0;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 18px;
+          padding: 20px 16px;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+          box-sizing: border-box !important;
         }
 
         .mp-content {
           position: relative;
           z-index: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
         }
 
         .mp__toast {
           position: absolute;
-          top: 15px;
+          top: -35px;
           left: 50%;
           transform: translateX(-50%);
           background: rgba(30, 30, 40, 0.95);
           color: #60a5fa;
           border: 1px solid rgba(96, 165, 250, 0.3);
-          padding: 6px 18px;
-          border-radius: 30px;
-          font-size: 0.8rem;
+          padding: 4px 12px;
+          border-radius: 20px;
+          font-size: 0.72rem;
           font-weight: 600;
           opacity: 0;
           pointer-events: none;
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+          transition: all 0.3s ease;
           white-space: nowrap;
-          box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-          z-index: 10;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 20;
         }
 
         .mp__toast.show {
           opacity: 1;
-          transform: translateX(-50%) translateY(12px);
-        }
-
-        /* En-tête */
-        .mp__header {
-          display: flex;
-          align-items: center;
-          gap: 18px;
-          margin-bottom: 22px;
+          transform: translateX(-50%) translateY(5px);
         }
 
         .mp__cover-wrapper {
-          position: relative;
-          width: 64px;
-          height: 64px;
+          width: 80px;
+          height: 80px;
+          margin-bottom: 12px;
           flex-shrink: 0;
         }
 
@@ -121,37 +102,30 @@ class MusicPlayer extends HTMLElement {
           width: 100%;
           height: 100%;
           background: linear-gradient(135deg, #2563eb, #1e1b4b);
-          border-radius: 16px;
+          border-radius: 14px;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 1.6rem;
+          font-size: 2rem;
           color: #ffffff;
-          box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+          box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+          overflow: hidden;
         }
 
-        .mp-card.playing .mp__cover {
-          animation: spinCover 12s linear infinite;
-        }
-
-        @keyframes spinCover {
-          100% { transform: rotate(360deg); }
+        .mp__cover img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         .mp__meta {
-          flex: 1;
-          min-width: 0;
-        }
-
-        .mp__title-row {
-          display: flex;
-          align-items: center;
-          gap: 8px;
+          width: 100%;
+          text-align: center;
+          margin-bottom: 14px;
         }
 
         .mp__title {
-          font-size: 1.1rem;
+          font-size: 0.95rem;
           font-weight: 700;
           color: #ffffff;
           margin: 0;
@@ -160,113 +134,35 @@ class MusicPlayer extends HTMLElement {
           text-overflow: ellipsis;
         }
 
-        /* Égaliseur visuel quand en lecture */
-        .mp__eq {
-          display: none;
-          align-items: flex-end;
-          gap: 2px;
-          height: 12px;
-        }
-
-        .mp-card.playing .mp__eq {
-          display: flex;
-        }
-
-        .mp__eq-bar {
-          width: 3px;
-          background: #60a5fa;
-          border-radius: 2px;
-          animation: eqAnim 0.8s ease-in-out infinite alternate;
-        }
-
-        .mp__eq-bar:nth-child(1) { height: 60%; animation-delay: 0.1s; }
-        .mp__eq-bar:nth-child(2) { height: 100%; animation-delay: 0.3s; }
-        .mp__eq-bar:nth-child(3) { height: 40%; animation-delay: 0.2s; }
-
-        @keyframes eqAnim {
-          0% { height: 20%; }
-          100% { height: 100%; }
-        }
-
         .mp__artist {
-          font-size: 0.82rem;
+          font-size: 0.75rem;
           color: #9ca3af;
-          margin: 4px 0 0 0;
+          margin: 3px 0 0 0;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
-        /* Contrôles */
-        .mp__controls {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 18px;
-          margin-bottom: 20px;
-        }
-
-        .mp__btn {
-          background: transparent;
-          border: none;
-          color: #9ca3af;
-          cursor: pointer;
-          font-size: 1.15rem;
-          padding: 8px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.2s ease;
-        }
-
-        .mp__btn:hover {
-          color: #ffffff;
-          background: rgba(255, 255, 255, 0.05);
-          transform: scale(1.1);
-        }
-
-        .mp__btn.active {
-          color: #60a5fa;
-          text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
-        }
-
-        .mp__play-btn {
-          width: 48px;
-          height: 48px;
-          background: #ffffff;
-          color: #0f172a;
-          border-radius: 50%;
-          font-size: 1.1rem;
-          box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .mp__play-btn:hover {
-          background: #f8fafc;
-          color: #0284c7;
-          transform: scale(1.08);
-          box-shadow: 0 0 25px rgba(56, 189, 248, 0.5);
-        }
-
-        /* Barre de progression */
         .mp__progress-group {
           display: flex;
           align-items: center;
-          gap: 12px;
-          margin-bottom: 18px;
+          gap: 8px;
+          width: 100%;
+          margin-bottom: 14px;
         }
 
         .mp__time {
-          font-size: 0.75rem;
+          font-size: 0.68rem;
           color: #64748b;
           font-weight: 600;
-          min-width: 32px;
+          min-width: 26px;
+          text-align: center;
         }
 
         .mp__bar {
           flex: 1;
-          height: 6px;
-          background: rgba(255, 255, 255, 0.08);
+          height: 5px;
+          background: rgba(255, 255, 255, 0.1);
           border-radius: 10px;
           cursor: pointer;
           position: relative;
@@ -280,162 +176,244 @@ class MusicPlayer extends HTMLElement {
           width: 0%;
           background: linear-gradient(90deg, #3b82f6, #60a5fa);
           border-radius: 10px;
-          box-shadow: 0 0 12px rgba(96, 165, 250, 0.6);
-          transition: width 0.1s linear;
         }
 
-        /* Volume */
+        .mp__controls {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          width: 100%;
+          margin-bottom: 14px;
+        }
+
+        .mp__btn {
+          background: transparent;
+          border: none;
+          color: #9ca3af;
+          cursor: pointer;
+          font-size: 0.95rem;
+          padding: 6px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.15s ease;
+        }
+
+        .mp__btn:hover {
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mp__btn.active {
+          color: #60a5fa;
+        }
+
+        .mp__play-btn {
+          width: 42px;
+          height: 42px;
+          background: #ffffff;
+          color: #0f172a;
+          border-radius: 50%;
+          font-size: 1rem;
+        }
+
+        .mp__play-btn:hover {
+          background: #38bdf8;
+          color: #ffffff;
+          transform: scale(1.05);
+        }
+
+        .mp__bottom-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          padding-top: 4px;
+        }
+
         .mp__volume-group {
           display: flex;
           align-items: center;
-          gap: 10px;
-          margin-bottom: 20px;
-          padding-bottom: 18px;
-          border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
-        }
-
-        .mp__volume-icon {
-          color: #64748b;
-          font-size: 0.9rem;
+          gap: 6px;
         }
 
         .mp__volume-slider {
-          width: 100px;
+          width: 70px;
           height: 4px;
           accent-color: #3b82f6;
           cursor: pointer;
         }
 
-        /* Playlist */
+        .mp__toggle-btn {
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          color: #9ca3af;
+          padding: 5px 10px;
+          border-radius: 8px;
+          font-size: 0.72rem;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .mp__toggle-btn:hover {
+          background: rgba(255, 255, 255, 0.15);
+          color: #ffffff;
+        }
+
+        .mp__drawer {
+          display: none;
+          width: 100%;
+          margin-top: 14px;
+          padding-top: 14px;
+          border-top: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .mp__drawer.open {
+          display: block;
+        }
+
         .mp__playlist {
           list-style: none;
           padding: 0;
-          margin: 0 0 20px 0;
-          max-height: 180px;
+          margin: 0 0 12px 0;
+          max-height: 130px;
           overflow-y: auto;
           display: flex;
           flex-direction: column;
-          gap: 6px;
+          gap: 4px;
         }
 
         .mp__playlist-item {
           display: flex;
-          justify-content: space-between;
           align-items: center;
-          padding: 10px 14px;
-          border-radius: 12px;
+          gap: 8px;
+          padding: 6px 8px;
+          border-radius: 6px;
           cursor: pointer;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid transparent;
-          transition: all 0.2s ease;
+          background: rgba(255, 255, 255, 0.03);
+          font-size: 0.75rem;
         }
 
         .mp__playlist-item:hover {
-          background: rgba(255, 255, 255, 0.06);
-          border-color: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.08);
         }
 
         .mp__playlist-item.active {
-          background: rgba(59, 130, 246, 0.15);
-          border-color: rgba(59, 130, 246, 0.3);
+          background: rgba(59, 130, 246, 0.2);
+          color: #60a5fa;
+          font-weight: 600;
         }
 
-        .mp__item-title {
-          font-size: 0.85rem;
-          font-weight: 500;
-          color: #e2e8f0;
+        /* Miniature dans la playlist */
+        .mp__item-icon {
+          width: 24px;
+          height: 24px;
+          border-radius: 4px;
+          background: rgba(255, 255, 255, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+          flex-shrink: 0;
+          overflow: hidden;
+        }
+
+        .mp__item-icon img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .mp__item-info {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
           flex: 1;
+          min-width: 0;
+        }
+
+        .mp__item-info span:first-child {
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
-        .mp__playlist-item.active .mp__item-title {
-          color: #60a5fa;
-          font-weight: 700;
-        }
-
-        .mp__item-artist {
-          font-size: 0.75rem;
-          color: #64748b;
-          margin-left: 12px;
+        .mp__item-info span:last-child {
+          white-space: nowrap;
+          font-size: 0.68rem;
+          opacity: 0.7;
+          margin-left: 6px;
           flex-shrink: 0;
         }
 
-        .mp__playlist-item.active .mp__item-artist {
-          color: #93c5fd;
-        }
-
-        /* Formulaire */
         .mp__upload-form {
           display: flex;
           flex-direction: column;
-          gap: 12px;
-          padding-top: 18px;
-          border-top: 1px dashed rgba(255, 255, 255, 0.1);
+          gap: 8px;
         }
 
         .mp__input {
           background: rgba(15, 23, 42, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.1);
           color: #ffffff;
-          padding: 12px 14px;
-          border-radius: 10px;
-          font-size: 0.85rem;
-          outline: none;
-          transition: all 0.2s ease;
-        }
-
-        .mp__input:focus {
-          border-color: #3b82f6;
-          box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-        }
-
-        .mp__input::placeholder {
-          color: #475569;
+          padding: 6px 8px;
+          border-radius: 6px;
+          font-size: 0.72rem;
+          width: 100%;
+          box-sizing: border-box;
         }
 
         .mp__input-file {
+          font-size: 0.7rem;
+          color: #94a3b8;
+          width: 100%;
           background: rgba(15, 23, 42, 0.6);
           border: 1px solid rgba(255, 255, 255, 0.1);
-          color: #94a3b8;
-          padding: 10px 14px;
-          border-radius: 10px;
-          font-size: 0.8rem;
+          border-radius: 6px;
+          padding: 4px;
+          box-sizing: border-box;
+        }
+
+        .mp__input-file::file-selector-button {
+          background: rgba(255, 255, 255, 0.1);
+          color: #ffffff;
+          border: none;
+          padding: 4px 8px;
+          border-radius: 4px;
           cursor: pointer;
+          margin-right: 8px;
+          transition: background 0.2s ease;
+        }
+
+        .mp__input-file::file-selector-button:hover {
+          background: rgba(255, 255, 255, 0.2);
         }
 
         .mp__submit-btn {
-          background: linear-gradient(135deg, #3b82f6, #2563eb);
+          background: #2563eb;
           color: #ffffff;
           border: none;
-          padding: 12px;
-          border-radius: 10px;
+          padding: 8px;
+          border-radius: 6px;
+          font-size: 0.75rem;
           font-weight: 700;
-          font-size: 0.85rem;
+          letter-spacing: 0.5px;
           cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          box-shadow: 0 8px 16px rgba(37, 99, 235, 0.3);
-          transition: all 0.2s ease;
+          width: 100%;
+          transition: background 0.2s ease;
         }
 
         .mp__submit-btn:hover {
-          transform: translateY(-1px);
-          box-shadow: 0 12px 20px rgba(37, 99, 235, 0.4);
-        }
-
-        .mp__submit-btn:active {
-          transform: translateY(0);
+          background: #3b82f6;
         }
 
         .mp__playlist::-webkit-scrollbar {
           width: 4px;
         }
         .mp__playlist::-webkit-scrollbar-thumb {
-          background: rgba(255, 255, 255, 0.1);
+          background: rgba(255, 255, 255, 0.2);
           border-radius: 4px;
         }
       </style>
@@ -444,34 +422,15 @@ class MusicPlayer extends HTMLElement {
         <div class="mp-content">
           <div class="mp__toast" data-el="toast"></div>
 
-          <!-- Pochette & Titre -->
-          <div class="mp__header">
-            <div class="mp__cover-wrapper">
-              <div class="mp__cover">🎵</div>
-            </div>
-            <div class="mp__meta">
-              <div class="mp__title-row">
-                <h3 class="mp__title" data-el="title">—</h3>
-                <div class="mp__eq">
-                  <div class="mp__eq-bar"></div>
-                  <div class="mp__eq-bar"></div>
-                  <div class="mp__eq-bar"></div>
-                </div>
-              </div>
-              <p class="mp__artist" data-el="artist">—</p>
-            </div>
+          <div class="mp__cover-wrapper">
+            <div class="mp__cover" data-el="cover">🎵</div>
           </div>
 
-          <!-- Contrôles -->
-          <div class="mp__controls">
-            <button class="mp__btn" data-el="shuffle" title="Lecture aléatoire">🔀</button>
-            <button class="mp__btn" data-el="prev" title="Précédent">⏮</button>
-            <button class="mp__btn mp__play-btn" data-el="play" title="Lecture / Pause">▶</button>
-            <button class="mp__btn" data-el="next" title="Suivant">⏭</button>
-            <button class="mp__btn" data-el="repeat" title="Répéter">🔁</button>
+          <div class="mp__meta">
+            <h3 class="mp__title" data-el="title">—</h3>
+            <p class="mp__artist" data-el="artist">—</p>
           </div>
 
-          <!-- Progression -->
           <div class="mp__progress-group">
             <span class="mp__time" data-el="currentTime">0:00</span>
             <div class="mp__bar" data-el="bar">
@@ -480,25 +439,32 @@ class MusicPlayer extends HTMLElement {
             <span class="mp__time" data-el="duration">0:00</span>
           </div>
 
-          <!-- Volume -->
-          <div class="mp__volume-group">
-            <span class="mp__volume-icon">🔊</span>
-            <input type="range" class="mp__volume-slider" data-el="volume" min="0" max="1" step="0.01" value="1">
+          <div class="mp__controls">
+            <button class="mp__btn" data-el="shuffle" title="Lecture aléatoire">🔀</button>
+            <button class="mp__btn" data-el="prev" title="Précédent">⏮</button>
+            <button class="mp__btn mp__play-btn" data-el="play" title="Lecture / Pause">▶</button>
+            <button class="mp__btn" data-el="next" title="Suivant">⏭</button>
+            <button class="mp__btn" data-el="repeat" title="Répéter">🔁</button>
           </div>
 
-          <!-- Liste des pistes -->
-          <ul class="mp__playlist" data-el="playlist"></ul>
+          <div class="mp__bottom-row">
+            <div class="mp__volume-group">
+              <span style="font-size:0.8rem;">🔊</span>
+              <input type="range" class="mp__volume-slider" data-el="volume" min="0" max="1" step="0.01" value="1">
+            </div>
+            <button class="mp__toggle-btn" data-el="toggleDrawer">☰ Liste</button>
+          </div>
 
-          <!-- Formulaire d'upload -->
-          <form class="mp__upload-form" data-el="uploadForm">
-            <input type="text" class="mp__input" data-el="inputTitle" placeholder="Titre du morceau (optionnel)">
-            <input type="text" class="mp__input" data-el="inputArtist" placeholder="Artiste (optionnel)">
-            <input type="file" class="mp__input-file" data-el="inputFile" accept="audio/*">
-          
-            <button type="submit" class="mp__submit-btn">
-              <span>➕</span> AJOUTER LE MORCEAU
-            </button>
-          </form>
+          <div class="mp__drawer" data-el="drawer">
+            <ul class="mp__playlist" data-el="playlist"></ul>
+
+            <form class="mp__upload-form" data-el="uploadForm">
+              <input type="text" class="mp__input" data-el="inputTitle" placeholder="Titre (optionnel)">
+              <input type="text" class="mp__input" data-el="inputArtist" placeholder="Artiste (optionnel)">
+              <input type="file" class="mp__input-file" data-el="inputFile" accept="audio/*">
+              <button type="submit" class="mp__submit-btn">AJOUTER LE MORCEAU</button>
+            </form>
+          </div>
         </div>
       </div>
 
@@ -512,6 +478,7 @@ class MusicPlayer extends HTMLElement {
     this.nextBtn = this.querySelector('[data-el="next"]');
     this.shuffleBtn = this.querySelector('[data-el="shuffle"]');
     this.repeatBtn = this.querySelector('[data-el="repeat"]');
+    this.coverEl = this.querySelector('[data-el="cover"]');
     this.titleEl = this.querySelector('[data-el="title"]');
     this.artistEl = this.querySelector('[data-el="artist"]');
     this.barEl = this.querySelector('[data-el="bar"]');
@@ -521,6 +488,8 @@ class MusicPlayer extends HTMLElement {
     this.volumeEl = this.querySelector('[data-el="volume"]');
     this.playlistEl = this.querySelector('[data-el="playlist"]');
     this.toastEl = this.querySelector('[data-el="toast"]');
+    this.drawerEl = this.querySelector('[data-el="drawer"]');
+    this.toggleBtn = this.querySelector('[data-el="toggleDrawer"]');
   }
 
   showNotification(message) {
@@ -539,18 +508,30 @@ class MusicPlayer extends HTMLElement {
     return `${m}:${s}`;
   }
 
+  // Génère un élément d'affichage (image HTML ou emoji) selon le contenu de cover
+  renderCoverHTML(coverVal) {
+    if (coverVal && (coverVal.startsWith('http') || coverVal.startsWith('images/') || coverVal.startsWith('/'))) {
+      return `<img src="${coverVal}" alt="Cover">`;
+    }
+    return coverVal || "🎵";
+  }
+
   renderPlaylist() {
     if (!this.playlistEl || !this.tracks) return;
 
     this.playlistEl.innerHTML = this.tracks
-      .map(
-        (track, index) => `
-        <li class="mp__playlist-item ${index === this.currentIndex ? "active" : ""}" data-index="${index}">
-          <span class="mp__item-title">${track.title}</span>
-          <span class="mp__item-artist">${track.artist}</span>
-        </li>
-      `
-      )
+      .map((track, index) => {
+        const coverContent = this.renderCoverHTML(track.cover);
+        return `
+          <li class="mp__playlist-item ${index === this.currentIndex ? "active" : ""}" data-index="${index}">
+            <div class="mp__item-icon">${coverContent}</div>
+            <div class="mp__item-info">
+              <span>${track.title}</span>
+              <span>${track.artist}</span>
+            </div>
+          </li>
+        `;
+      })
       .join("");
 
     this.playlistEl.querySelectorAll(".mp__playlist-item").forEach((item) => {
@@ -569,15 +550,14 @@ class MusicPlayer extends HTMLElement {
     this.audio.src = track.src;
     this.titleEl.textContent = track.title;
     this.artistEl.textContent = track.artist;
+    this.coverEl.innerHTML = this.renderCoverHTML(track.cover);
     this.renderPlaylist();
 
     if (autoplay) {
       this.audio.play();
       this.playBtn.textContent = "⏸";
-      this.cardEl.classList.add("playing");
     } else {
       this.playBtn.textContent = "▶";
-      this.cardEl.classList.remove("playing");
     }
   }
 
@@ -594,15 +574,17 @@ class MusicPlayer extends HTMLElement {
   }
 
   bindEvents() {
+    this.toggleBtn.addEventListener("click", () => {
+      this.drawerEl.classList.toggle("open");
+    });
+
     this.playBtn.addEventListener("click", () => {
       if (this.audio.paused) {
         this.audio.play();
         this.playBtn.textContent = "⏸";
-        this.cardEl.classList.add("playing");
       } else {
         this.audio.pause();
         this.playBtn.textContent = "▶";
-        this.cardEl.classList.remove("playing");
       }
     });
 
@@ -612,7 +594,7 @@ class MusicPlayer extends HTMLElement {
     this.shuffleBtn.addEventListener("click", () => {
       this.isShuffle = !this.isShuffle;
       this.shuffleBtn.classList.toggle("active", this.isShuffle);
-      this.showNotification(this.isShuffle ? "Lecture aléatoire activée 🔀" : "Lecture aléatoire désactivée");
+      this.showNotification(this.isShuffle ? "Aléatoire activé 🔀" : "Aléatoire désactivé");
     });
 
     this.repeatBtn.addEventListener("click", () => {
@@ -624,7 +606,7 @@ class MusicPlayer extends HTMLElement {
       } else if (this.repeatMode === 1) {
         this.repeatBtn.textContent = "🔁";
         this.repeatBtn.classList.add("active");
-        this.showNotification("Répéter la playlist 🔁");
+        this.showNotification("Répéter la liste 🔁");
       } else if (this.repeatMode === 2) {
         this.repeatBtn.textContent = "🔂";
         this.repeatBtn.classList.add("active");
@@ -640,7 +622,6 @@ class MusicPlayer extends HTMLElement {
         this.nextTrack(true);
       } else {
         this.playBtn.textContent = "▶";
-        this.cardEl.classList.remove("playing");
       }
     });
 
@@ -677,8 +658,6 @@ class MusicPlayer extends HTMLElement {
         if (!fileInput.files[0]) return;
 
         const file = fileInput.files[0];
-
-        // Titre par défaut : nom du fichier nettoyé d'extension et d'underscores
         const defaultTitle = file.name.replace(/\.[^/.]+$/, "").replace(/_/g, " ");
         const finalTitle = titleInput.value.trim() || defaultTitle;
         const finalArtist = artistInput.value.trim() || "Artiste inconnu";
@@ -701,12 +680,13 @@ class MusicPlayer extends HTMLElement {
             this.tracks.push({
               title: data.title || finalTitle,
               artist: data.artist || finalArtist,
-              src: data.src
+              src: data.src,
+              cover: data.cover || "🎵"
             });
 
             this.renderPlaylist();
             this.loadTrack(this.tracks.length - 1, true);
-            this.showNotification("Morceau ajouté avec succès ! 🎵");
+            this.showNotification("Morceau ajouté ! 🎵");
             uploadForm.reset();
           } else {
             alert(data.error || "Erreur lors de l'envoi.");

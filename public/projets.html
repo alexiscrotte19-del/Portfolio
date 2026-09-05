@@ -15,45 +15,65 @@
         <meta property="og:url" content="https://portfolio-c8nr.onrender.com/projets.html">
         <script src="js/header.js"></script>
         <script src="js/main.js"></script>
-        <script src="js/player.js"></script>
+       
     <title>Projets</title>
 </head>
 <body>
  <site-header></site-header>
  <music-player></music-player>
-    <main id="main-content">
+    <article class="project-card">
+        <h2>Déploiement d'une infrastructure réseaux en suivant un cahier des charges</h2>
 
-      <section id="projets">
-            <h1>Projets</h1>
-
-         <div class="projects-grid">
-
-            <article class="project-card">
-                <div class="project-image">
-             
-                </div>
-                <div class="project-content">
-                <h3>Portfolio personnel</h3>
-                <p class="project-tech">HTML / CSS / JavaScript / Node.js — 2026</p>
-                <p>Site portfolio développé de A à Z : structure HTML sémantique, design system en CSS (variables, grid, flexbox), serveur Express avec formulaire de contact fonctionnel, déployé sur Render.</p>
-                </div>
-            </article>
-
-            <article class="project-card">
-                <div class="project-image">
-               
-                </div>
-                <div class="project-content">
-                <h3>Refonte d'une application Electron.js en C#</h3>
-                <p class="project-tech">C# — Stage</p>
-                <p>Reprise et refonte en C# d'une application initialement développée en Electron.js, permettant à l'équipe de gérer son matériel en autonomie, sans passer par le technicien.</p>
-                </div>
-            </article>
-
-
-            </div>
-            <!-- Ajoutez d'autres projets ici -->
+        <!-- 1. Contexte -->
+        <section class="project-section">
+            <h3>1. Contexte</h3>
+            <p>
+            Dans le cadre du projet Infrastructure E6, l'objectif est de concevoir et déployer l'architecture informatique d'une nouvelle entité destinée à devenir autonome à long terme. Le réseau doit s'intégrer à l'infrastructure existante de l'entreprise mère via un routage statique (sans NAT) en utilisant le réseau fourni par le responsable et la passerelle 10.21.3.1. L'organisation initiale 
+            comprend 10 collaborateurs répartis en trois services (Direction, Commercial, Production) et deux catégories de sécurité (VIP et Employés).
+            </p>
         </section>
+
+        <!-- 2. Objectifs -->
+        <section class="project-section">
+            <h3>2. Objectifs</h3>
+            <ul>
+            <li>Indépendance technique : Créer une infrastructure complète incluant Active Directory, DNS, DHCP, NTP et DFS.</li>
+            <li>Segmentation réseau : Mettre en place 4 plages réseaux distinctes (Serveurs, DMZ, LAN, et un VLAN en attente) avec gestion de l'inter- VLAN.</li>
+            <li>Sécurisation des flux : Configurer un firewall pour isoler la DMZ tout en autorisant les flux Web (80/443) et l'administration distante.</li>
+            <li>Gestion centralisée : Appliquer les bonnes pratiques système via des GPO (sécurisation USB, messages d'accueil personnalisés, lecteurs réseaux).</li>
+        </ul>
+        </section>
+
+        <!-- 3. Travail réalisé -->
+        <section class="project-section">
+            <h3>3. Travail réalisé</h3>
+            <ul>
+            <li>Conception réseau : Découpage d’une plage IP en 4 sous-réseaux (VLANs) et configuration d’un routage statique vers la passerelle 10.21.3.1 pour assurer l'interconnexion WAN sans NAT.</li>
+            <li>Déploiement des services : Installation et configuration d'Active Directory, DNS, DHCP, NTP et DFS sur les serveurs dédiés.</li>
+            </ul>
+        </section>
+
+   
+
+        <!-- 5. Compétences mobilisées -->
+        <section class="project-section">
+            <h3>5. Compétences mobilisées (Référentiel E5)</h3>
+            <ul>
+            <li><strong>C1 :</strong> Gérer le patrimoine informatique</li>
+            <li><strong>C4 :</strong> Travailler en mode projet</li>
+            <li><strong>C5 :</strong> Mettre à disposition des utilisateurs un service informatique</li>
+            </ul>
+        </section>
+
+        
+        <!-- 7. Bilan -->
+        <section class="project-section">
+            <h3>7. Bilan &amp; Analyse critique</h3>
+            <p>
+            Ce projet m'a permis de mettre en pratique mes compétences en administration réseau et systèmes, tout en respectant un cahier des charges précis. J'ai pu approfondir ma compréhension des VLANs, du routage statique et de la sécurisation des flux réseau. Cependant, j'ai rencontré des défis lors de la configuration du firewall et de l'intégration des services dans un environnement multi-serveurs. Ces expériences m'ont permis d'améliorer mes compétences en résolution de problèmes et en gestion de projet.
+            </p>
+        </section>
+        </article>
         </main>
        
     <footer>
