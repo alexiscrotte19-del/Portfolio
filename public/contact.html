@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2317171a'/><text x='50%' y='68%' font-family='Arial Black, sans-serif' font-weight='900' font-size='55' fill='%23f6f4ef' text-anchor='middle'>A</text></svg>">
+    <meta name="description" content="Contactez Alexis Crotte — formulaire de contact, LinkedIn et e-mail.">
+
+    <meta property="og:title" content="Contact — Alexis Crotte">
+    <meta property="og:description" content="Contactez Alexis Crotte — formulaire de contact, LinkedIn et e-mail.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://portfolio-c8nr.onrender.com/contact.html">
+    <script src="js/header.js"></script>
+    <script src="js/main.js"></script>
+   
+    <title>Contact — Alexis Crotte</title>
+        <!-- Logo de l'établissement -->
+            <div class="hero-logo">
+                <img src="assets/images/logo_saintdenis.jpg" alt="Logo du lycée / établissement" loading="lazy">
+            </div>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Aller au contenu</a>
+    <site-header></site-header>
+    <music-player></music-player>
+    
+        <main id="main-content">
+        <!-- Section de contact avec formulaire et liens -->
+        <section id="contact">
+            <h1>Contact</h1>
+            <!-- Champ de hameçonnage pour prévenir les spams -->
+            <form id="contactForm">
+  <!-- Choix du sujet -->
+        <div class="form-group full-width">
+            <label>VOUS ME CONTACTEZ POUR...</label>
+            <div class="subject-tags">
+            <button type="button" class="tag-btn active" data-value="Opportunité d'emploi">Opportunité d'emploi</button>
+            <button type="button" class="tag-btn" data-value="Alternance">Alternance</button>
+            <button type="button" class="tag-btn" data-value="Projet / mission">Projet / mission</button>
+            <button type="button" class="tag-btn" data-value="Autre">Autre</button>
+            </div>
+            <!-- Champ caché pour envoyer la valeur sélectionnée -->
+            <input type="hidden" name="subject" id="selectedSubject" value="Opportunité d'emploi">
+        </div>
+
+        <!-- Ligne Nom + E-mail -->
+        <div class="form-row">
+            <div class="form-group">
+            <label for="name">VOTRE NOM</label>
+            <input type="text" id="name" name="name" placeholder="Jeanne Dupont" required>
+            </div>
+            <div class="form-group">
+            <label for="email">VOTRE E-MAIL</label>
+            <input type="email" id="email" name="email" placeholder="jeanne@entreprise.fr" required>
+            </div>
+        </div>
+
+        <!-- Message -->
+        <div class="form-group full-width">
+            <label for="message">MESSAGE</label>
+            <textarea id="message" name="message" rows="5" placeholder="Bonjour Alexis, nous recherchons un développeur..." required></textarea>
+        </div>
+
+        <!-- Bouton d'envoi -->
+        <button type="submit">Envoyer le message →</button>
+        <p id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+            <footer>
+                <p>&copy; 2026 Alexis Crotte. Tous droits réservés.</p>
+            </footer>
+    
+
+</body>
+</html>
