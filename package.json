@@ -18,5 +18,14 @@
   "keywords": [],
   "type": "commonjs",
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexiscrotte19-del/Portfolio.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexiscrotte19-del/Portfolio/issues"
+  },
+  "homepage": "https://github.com/alexiscrotte19-del/Portfolio#readme"
 }
