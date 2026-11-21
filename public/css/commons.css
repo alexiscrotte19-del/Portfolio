@@ -282,3 +282,142 @@ figcaption {
   font-size: 0.85rem;
   text-decoration: underline;
 }
+
+/* 9. FORMULAIRE DE CONTACT */
+@keyframes bgGlowAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.contact-section,
+section:has(form) {
+  position: relative;
+  width: 100%;
+  padding: 48px 16px;
+  background: radial-gradient(circle at 10% 50%, rgba(230, 76, 130, 0.25), transparent 40%),
+              radial-gradient(circle at 90% 50%, rgba(44, 111, 176, 0.3), transparent 40%),
+              var(--paper);
+  background-size: 140% 140%;
+  animation: bgGlowAnimation 8s ease infinite;
+}
+
+form {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+  max-width: 580px;
+  margin: 0 auto;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(10px);
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+form label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+form input,
+form textarea {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--ink);
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+form textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+form input:focus,
+form textarea:focus {
+  outline: none;
+  border-color: var(--pink);
+  box-shadow: 0 0 0 3px rgba(230, 76, 130, 0.25);
+}
+
+.subject-tags {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.tag-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--ink);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.tag-btn:hover {
+  border-color: var(--pink);
+  background: rgba(230, 76, 130, 0.15);
+  transform: translateY(-1px);
+}
+
+.tag-btn.active {
+  background: var(--pink);
+  color: #ffffff;
+  border-color: var(--pink);
+  box-shadow: 0 4px 12px rgba(230, 76, 130, 0.35);
+}
+
+button[type="submit"] {
+  align-self: stretch;
+  font-family: var(--font-body);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--paper);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 8px;
+}
+
+button[type="submit"]:hover {
+  background: var(--pink);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(230, 76, 130, 0.35);
+}
+
+@media (max-width: 600px) {
+  .subject-tags {
+    grid-template-columns: 1fr;
+  }
+}
