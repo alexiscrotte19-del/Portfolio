@@ -1,0 +1,284 @@
+
+  /* 4. SECTION HERO (Présentation principale) */
+.hero {
+  min-height: 70vh; /* Occupe au moins 70% de la hauteur de l'écran */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 48px 32px;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 8vw, 6rem); /* S'adapte de manière fluide à l'écran */
+  line-height: 0.95;
+  margin: 0 0 24px;
+  text-transform: uppercase;
+}
+
+.hero p {
+  max-width: 100%; /* Le texte prend toute la largeur disponible sur la ligne */
+  font-size: 1.1rem;
+  margin: 0 0 8px;
+}
+
+.hero-logo img {
+  max-height: 90px;
+  object-fit: contain;
+  display: block;
+  margin-top: 16px;
+  border-radius: 8px;
+  transition: opacity 0.2s ease; /* Rend le changement fluide au survol */
+  opacity: 0.8;
+
+}
+
+  /* 5. TIMBRES DE CONTACT (Liens vers réseaux sociaux et email) */
+.contact-stamps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  padding: 0 32px 48px;
+}
+
+.contact-stamps a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;    
+  text-align: center;
+  gap: 6px;
+  padding: 22px;
+  border: 1.5px solid var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform 0.15s ease;
+}
+
+/* Effet d'inclinaison au survol */
+.contact-stamps a:hover {
+  transform: rotate(-1.5deg);
+}
+
+.contact-stamps a span:first-child {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.7;
+}
+
+.contact-stamps a span:last-child {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+/* 6. TIMELINE DYNAMIQUE (Expériences et formations) */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 0 32px 48px;
+}
+
+.experience-card,
+.timeline-item {
+  background-color: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-left: 4px solid var(--ink); /* Barre d'accentuation sur le côté */
+  border-radius: 6px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.experience-card:hover,
+.timeline-item:hover {
+  transform: translateY(-3px);
+  border-left-color: var(--pink);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.experience-card h3,
+.timeline-item h3 {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.15rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+}
+
+.experience-card .date,
+.timeline-item .date {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  display: inline-block;
+}
+
+.experience-card p,
+.timeline-item p {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 60ch;
+}
+
+.experience-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.8rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--border-soft);
+  color: var(--ink);
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+/* 7. TABLEAUX DYNAMIQUES */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1.5px solid var(--ink);
+  margin-top: 1rem;
+  background-color: var(--surface);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+table:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+th, td {
+  padding: 14px 18px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--ink);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+th {
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+tbody tr:hover {
+  background-color: var(--border-soft);
+}
+
+tbody td:hover {
+  background-color: var(--pink);
+  color: #ffffff;
+  font-weight: bold;
+  cursor: default;
+}
+
+tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* 8. GRILLE DE PROJETS ET D'ACTUALITÉS (Cartes) */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 0 32px 48px;
+}
+
+.project-card {
+  display: block;
+  padding: 20px;
+  border: 1.5px solid var(--ink);
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--surface); 
+  transition: transform 0.15s ease;
+}
+
+.project-card img {
+  display: block;
+  max-height: 250px;
+  object-fit: contain;
+  left: 0;
+  right: 0;
+  transition: transform 0.2s ease;
+  cursor: zoom-in;
+}
+
+figure {
+  margin: 8px 0 0;
+}
+
+figcaption {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-top: 6px;
+  font-style: italic;
+}
+
+.project-card:hover {
+  transform: translateY(-4px);
+}
+
+.project-card h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.project-card p {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+}
+
+.actualite-item {
+  padding: 20px;
+  margin: 0 32px 24px;
+  border: 1.5px solid var(--ink);
+  background: var(--surface);
+}
+
+.actualite-item h3 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.actualite-item p {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+}
+
+.actualite-item ul {
+  margin: 0 0 10px;
+  padding-left: 20px;
+}
+
+.actualite-item a {
+  color: var(--blue);
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
